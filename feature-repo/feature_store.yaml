@@ -1,4 +1,4 @@
-project: feast-project
+project: feast_project
 registry: data/registry.db
 provider: local
 online_store:
