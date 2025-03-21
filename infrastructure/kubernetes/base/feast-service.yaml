@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: feast-serving
+  namespace: feast
+spec:
+  selector:
+    app: feast-serving
+  ports:
+  - port: 6566
+    targetPort: 6566
+    name: grpc
+  - port: 8080
+    targetPort: 8080
+    name: http 

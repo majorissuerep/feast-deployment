@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: features-configmap
+  namespace: feast
+data:
+  example_features.py: |
+    from datetime import timedelta
+    from feast import Entity, Feature, FeatureView, ValueType
+    from feast.types import Float32, Int64
+
+    # Define an entity
+    customer = Entity(
+        name="customer_id",
+        value_type=ValueType.INT64,
+        description="customer identifier",
+    )
+
+    # Define a simple FileSource with demo data
+    from feast import FileSource
+    customer_source = FileSource(
+        path="data/customer_data.parquet",  # This would need to be accessible
+        event_timestamp_column="event_timestamp",
+    )
+
+    # Define a Feature View
+    customer_view = FeatureView(
+        name="customer_features",
+        entities=[customer],
+        ttl=timedelta(days=30),
+        schema=[
+            Feature(name="total_orders", dtype=Int64),
+            Feature(name="average_order_value", dtype=Float32),
+        ],
+        online=True,
+        source=customer_source,
+    ) 

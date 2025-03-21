@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: feast-apply
+  namespace: feast
+spec:
+  template:
+    spec:
+      containers:
+      - name: feast-apply
+        image: feastdev/feature-server:latest
+        command: ["feast", "apply", "-c", "/etc/feast/feature_store.yaml"]
+        volumeMounts:
+        - name: feast-config
+          mountPath: /etc/feast
+        - name: features-volume
+          mountPath: /etc/feast/features
+      volumes:
+      - name: feast-config
+        configMap:
+          name: feast-config
+      - name: features-volume
+        configMap:
+          name: features-configmap
+      restartPolicy: Never
+  backoffLimit: 3 

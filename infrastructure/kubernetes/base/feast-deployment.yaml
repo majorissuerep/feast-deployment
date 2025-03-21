@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feast-serving
+  namespace: feast
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feast-serving
+  template:
+    metadata:
+      labels:
+        app: feast-serving
+    spec:
+      containers:
+      - name: feast-serving
+        image: feastdev/feature-server:latest
+        ports:
+        - containerPort: 6566
+          name: grpc
+        - containerPort: 8080
+          name: http
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+        env:
+        - name: FEAST_FEATURE_STORE_CONFIG_PATH
+          value: /etc/feast/feature_store.yaml
+        volumeMounts:
+        - name: feast-config
+          mountPath: /etc/feast
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 10
+      volumes:
+      - name: feast-config
+        configMap:
+          name: feast-config 
