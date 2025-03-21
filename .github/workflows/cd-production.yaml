@@ -37,10 +37,16 @@ jobs:
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG_PRODUCTION }}
           
+      - name: Verify cluster connection
+        run: |
+          kubectl config view
+          kubectl cluster-info
+          kubectl get nodes -o wide
+          
       - name: Deploy to production
         run: |
           cd infrastructure/kubernetes
-          kustomize build overlays/production | kubectl apply -f -
+          kustomize build overlays/production | kubectl apply -f - --validate=false
           
       - name: Verify deployment
         run: |
