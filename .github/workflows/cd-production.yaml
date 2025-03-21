@@ -49,7 +49,9 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         run: |
           cd infrastructure/kubernetes
-          kustomize build overlays/production | envsubst | kubectl apply -f - --validate=false
+          export DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
+          export GITHUB_SHA=${{ github.sha }}
+          kustomize build overlays/production | envsubst | kubectl apply -f -
           
       - name: Verify deployment
         run: |
