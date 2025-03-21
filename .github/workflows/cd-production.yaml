@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME  }}/feast-server
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/feast-server
 
 jobs:
   deploy-production:
@@ -19,8 +19,8 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME  }}
-          password: ${{ secrets.DOCKERHUB_TOKEN  }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
           
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -44,9 +44,12 @@ jobs:
           kubectl get nodes -o wide
           
       - name: Deploy to production
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          GITHUB_SHA: ${{ github.sha }}
         run: |
           cd infrastructure/kubernetes
-          kustomize build overlays/production | kubectl apply -f - --validate=false
+          kustomize build overlays/production | envsubst | kubectl apply -f - --validate=false
           
       - name: Verify deployment
         run: |

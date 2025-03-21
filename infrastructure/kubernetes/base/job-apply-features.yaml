@@ -9,7 +9,7 @@ spec:
       containers:
       - name: feast-apply
         image: feastdev/feature-server:latest
-        command: ["feast", "apply", "-c", "/etc/feast/feature_store.yaml"]
+        command: ["feast", "apply", "/etc/feast/feature_store.yaml"]
         volumeMounts:
         - name: feast-config
           mountPath: /etc/feast
