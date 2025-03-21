@@ -22,6 +22,18 @@ patches:
         - name: dockerhub-pull-secret
 
 - target:
+    kind: Job
+    name: feast-apply
+  patch: |-
+    - op: replace
+      path: /spec/template/spec/containers/0/image
+      value: docker.io/${DOCKERHUB_USERNAME}/feast-server:${GITHUB_SHA}
+    - op: add
+      path: /spec/template/spec/imagePullSecrets
+      value:
+        - name: dockerhub-pull-secret
+
+- target:
     kind: ConfigMap
     name: feast-config
   patch: |-
