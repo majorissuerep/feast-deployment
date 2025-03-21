@@ -20,6 +20,12 @@ patches:
       path: /spec/template/spec/imagePullSecrets
       value:
         - name: dockerhub-pull-secret
+    - op: replace
+      path: /spec/template/spec/containers/0/env/0/value
+      value: /app/feature_store.yaml
+    - op: replace
+      path: /spec/template/spec/containers/0/volumeMounts/0/mountPath
+      value: /app
 
 - target:
     kind: Job
@@ -32,6 +38,12 @@ patches:
       path: /spec/template/spec/imagePullSecrets
       value:
         - name: dockerhub-pull-secret
+    - op: replace
+      path: /spec/template/spec/containers/0/command/2
+      value: /app/feature_store.yaml
+    - op: replace
+      path: /spec/template/spec/containers/0/volumeMounts/0/mountPath
+      value: /app
 
 - target:
     kind: ConfigMap
