@@ -22,7 +22,7 @@ patches:
     name: feast-config
   patch: |-
     - op: replace
-      path: /data/feature_store\.yaml
+      path: /data/feature_store.yaml
       value: |
         project: feast-project-production
         registry: file:///tmp/registry.db
