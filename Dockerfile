@@ -13,7 +13,7 @@ COPY feature-repo/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy feature repository
-COPY feature-repo/ feature-repo/
+COPY feature-repo/ .
 
 # Copy infrastructure configurations
 COPY infrastructure/ infrastructure/
