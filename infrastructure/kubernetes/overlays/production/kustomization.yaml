@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 namespace: feast
-bases:
+resources:
 - ../../base
 
 patches:
@@ -12,10 +12,23 @@ patches:
   patch: |-
     - op: replace
       path: /spec/template/spec/containers/0/image
-      value: ghcr.io/$(GITHUB_REPOSITORY)/feast-server:production
+      value: docker.io/${DOCKER_USERNAME}/feast-server:${GITHUB_SHA}
     - op: replace
       path: /spec/replicas
       value: 3
 
-resources:
-- production-config.yaml 
+- target:
+    kind: ConfigMap
+    name: feast-config
+  patch: |-
+    - op: replace
+      path: /data/feature_store\.yaml
+      value: |
+        project: feast-project-production
+        registry: file:///tmp/registry.db
+        provider: local
+        online_store:
+          type: redis
+          connection_string: feast-redis:6379
+        offline_store:
+          type: file
