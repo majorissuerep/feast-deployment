@@ -16,6 +16,10 @@ patches:
     - op: replace
       path: /spec/replicas
       value: 3
+    - op: add
+      path: /spec/template/spec/imagePullSecrets
+      value:
+        - name: dockerhub-pull-secret
 
 - target:
     kind: ConfigMap

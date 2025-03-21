@@ -43,6 +43,16 @@ jobs:
           kubectl cluster-info
           kubectl get nodes -o wide
           
+      - name: Create Docker Hub pull secret
+        run: |
+          kubectl create secret docker-registry dockerhub-pull-secret \
+            --docker-server=docker.io \
+            --docker-username=${{ secrets.DOCKERHUB_USERNAME }} \
+            --docker-password=${{ secrets.DOCKERHUB_TOKEN }} \
+            --docker-email=${{ secrets.DOCKERHUB_EMAIL }} \
+            -n feast \
+            --dry-run=client -o yaml | kubectl apply -f -
+          
       - name: Deploy to production
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
