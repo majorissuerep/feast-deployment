@@ -6,7 +6,7 @@ metadata:
 data:
   feature_store.yaml: |
     project: feast_project
-    registry: file:///tmp/registry.db
+    registry: /tmp/registry.db
     provider: local
     online_store:
       type: redis

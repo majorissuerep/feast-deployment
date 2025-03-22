@@ -53,7 +53,7 @@ patches:
       path: /data/feature_store.yaml
       value: |
         project: feast_project_production
-        registry: file:///tmp/registry.db
+        registry: /tmp/registry.db
         provider: local
         online_store:
           type: redis
