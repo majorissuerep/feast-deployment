@@ -52,7 +52,7 @@ patches:
     - op: replace
       path: /data/feature_store.yaml
       value: |
-        project: feast-project-production
+        project: feast_project_production
         registry: file:///tmp/registry.db
         provider: local
         online_store:

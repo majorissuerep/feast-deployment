@@ -5,7 +5,7 @@ metadata:
   namespace: feast
 data:
   feature_store.yaml: |
-    project: feast-project
+    project: feast_project
     registry: file:///tmp/registry.db
     provider: local
     online_store:
