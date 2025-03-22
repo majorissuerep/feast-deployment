@@ -9,12 +9,12 @@ spec:
       containers:
       - name: feast-apply
         image: feastdev/feast-server:0.34.1
-        command: ["feast", "apply", "/etc/feast/feature_store.yaml"]
+        command: ["feast", "apply", "/app/feature_store.yaml"]
         volumeMounts:
         - name: feast-config
-          mountPath: /etc/feast
+          mountPath: /app
         - name: features-volume
-          mountPath: /etc/feast/features
+          mountPath: /app/features
       volumes:
       - name: feast-config
         configMap:

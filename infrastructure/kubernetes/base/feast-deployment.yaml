@@ -30,16 +30,28 @@ spec:
             memory: 1Gi
         env:
         - name: FEAST_FEATURE_STORE_CONFIG_PATH
-          value: /etc/feast/feature_store.yaml
+          value: /app/feature_store.yaml
         volumeMounts:
         - name: feast-config
-          mountPath: /etc/feast
+          mountPath: /app
         readinessProbe:
           httpGet:
             path: /healthz
             port: 8080
-          initialDelaySeconds: 15
+          initialDelaySeconds: 30
           periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 20
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
       volumes:
       - name: feast-config
         configMap:

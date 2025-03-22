@@ -23,4 +23,4 @@ ENV FEAST_FEATURE_STORE_CONFIG_PATH=/app/feature_store.yaml
 EXPOSE 6566 8080
 
 # Start Feast server
-CMD ["feast", "serve", "-h", "0.0.0.0"] 
+CMD ["feast", "serve", "--host", "0.0.0.0", "--port", "8080", "--grpc-port", "6566"] 
