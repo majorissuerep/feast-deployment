@@ -8,18 +8,16 @@ RUN apt-get update && \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first to leverage Docker cache
-COPY feature-repo/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy feature repository
 COPY feature-repo/ .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy infrastructure configurations
 COPY infrastructure/ infrastructure/
 
 # Set environment variables
-ENV FEAST_FEATURE_STORE_CONFIG_PATH=/app/feature-repo/feature_store.yaml
+ENV FEAST_FEATURE_STORE_CONFIG_PATH=/app/feature_store.yaml
 
 # Expose ports for gRPC and HTTP
 EXPOSE 6566 8080
